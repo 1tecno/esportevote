@@ -59,20 +59,6 @@
       box-shadow: 0 0 15px #ff6666;
     }
 
-    .emojis {
-      font-size: 2em;
-      margin-top: 20px;
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-      animation: flutuar 3s ease-in-out infinite;
-    }
-
-    @keyframes flutuar {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
-    }
-
     .btn-container button {
       margin: 10px;
       padding: 15px 30px;
@@ -111,9 +97,9 @@
 <body>
   <!-- TELA INICIAL -->
   <div id="tela-inicial">
-    <h1>🎯 Projeto Escolar: Votação de Esportes</h1>
+    <h1>Projeto Escolar: Votação de Esportes</h1>
     <p class="descricao">
-      Este projeto foi criado como parte de uma atividade escolar com o objetivo de incentivar os alunos a expressarem seus esportes favoritos de forma interativa e divertida! 🏆
+      Este projeto foi criado como parte de uma atividade escolar com o objetivo de incentivar os alunos a expressarem seus esportes favoritos de forma interativa e divertida!
     </p>
 
     <form id="formulario">
@@ -127,25 +113,17 @@
       </select>
       <button type="button" onclick="iniciarVotacao()">Votar!</button>
     </form>
-
-    <div class="emojis">
-      <span class="emoji futsal">⚽</span>
-      <span class="emoji basquete">🏀</span>
-      <span class="emoji volei">🏐</span>
-      <span class="emoji peteca">🪶</span>
-      <span class="emoji handebol">🥅</span>
-    </div>
   </div>
 
   <!-- TELA DE VOTAÇÃO -->
   <div id="tela-votacao" style="display: none;">
     <h1>Vote no seu esporte favorito!</h1>
     <div class="btn-container">
-      <button class="futsal" onclick="votar('Futsal')">⚽ Futsal</button>
-      <button class="basquete" onclick="votar('Basquete')">🏀 Basquete</button>
-      <button class="volei" onclick="votar('Vôlei')">🏐 Vôlei</button>
-      <button class="peteca" onclick="votar('Peteca')">🪶 Peteca</button>
-      <button class="handebol" onclick="votar('Handebol')">🥅 Handebol</button>
+      <button class="futsal" onclick="votar('Futsal')">Futsal</button>
+      <button class="basquete" onclick="votar('Basquete')">Basquete</button>
+      <button class="volei" onclick="votar('Vôlei')">Vôlei</button>
+      <button class="peteca" onclick="votar('Peteca')">Peteca</button>
+      <button class="handebol" onclick="votar('Handebol')">Handebol</button>
     </div>
     <p id="mensagem"></p>
     <canvas id="graficoVotos"></canvas>
