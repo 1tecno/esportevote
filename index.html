@@ -1,28 +1,228 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Votação de Esportes</title>
-  <link rel="stylesheet" href="estilos.css">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Votação Escolar de Esportes</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(-45deg, #8b0000, #5c0000, #7c0a02, #4b0000);
+      background-size: 400% 400%;
+      animation: fundoAnimado 10s ease infinite;
+      color: #fff;
+      text-align: center;
+    }
+
+    @keyframes fundoAnimado {
+      0% {background-position: 0% 50%;}
+      50% {background-position: 100% 50%;}
+      100% {background-position: 0% 50%;}
+    }
+
+    h1 {
+      margin-top: 20px;
+      font-size: 2em;
+    }
+
+    .descricao {
+      font-size: 1.2em;
+      margin: 10px 20px;
+    }
+
+    #formulario {
+      margin: 20px auto;
+      display: flex;
+      flex-direction: column;
+      width: 300px;
+    }
+
+    #formulario input, #formulario select, #formulario button {
+      margin: 10px 0;
+      padding: 10px;
+      font-size: 1em;
+      border: none;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #fff2;
+    }
+
+    #formulario button {
+      background-color: #ff4444;
+      color: white;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    #formulario button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 15px #ff6666;
+    }
+
+    .emojis {
+      font-size: 2em;
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      animation: flutuar 3s ease-in-out infinite;
+    }
+
+    @keyframes flutuar {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .btn-container button {
+      margin: 10px;
+      padding: 15px 30px;
+      font-size: 1em;
+      border: 2px solid white;
+      border-radius: 20px;
+      cursor: pointer;
+      color: white;
+      text-shadow: 0 0 5px #000;
+      transition: all 0.3s ease;
+    }
+
+    .futsal { background: #007bff; border-color: #00f; }
+    .basquete { background: #ff8c00; border-color: #ff8c00; }
+    .volei { background: #ffd700; border-color: #ffd700; color: black; }
+    .peteca { background: #800080; border-color: #9400d3; }
+    .handebol { background: #228B22; border-color: #2E8B57; }
+
+    .btn-container button:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 20px #fff;
+    }
+
+    #mensagem {
+      margin: 20px;
+      font-size: 1.3em;
+      font-weight: bold;
+    }
+
+    canvas {
+      max-width: 400px;
+      margin: 30px auto;
+    }
+  </style>
 </head>
 <body>
+  <!-- TELA INICIAL -->
+  <div id="tela-inicial">
+    <h1>🎯 Projeto Escolar: Votação de Esportes</h1>
+    <p class="descricao">
+      Este projeto foi criado como parte de uma atividade escolar com o objetivo de incentivar os alunos a expressarem seus esportes favoritos de forma interativa e divertida! 🏆
+    </p>
 
-  <h1>📊 Vote no Seu Esporte Preferido!</h1>
+    <form id="formulario">
+      <input type="text" id="nome" placeholder="Nome e Sobrenome" required>
+      <select id="turma" required>
+        <option value="">Selecione sua turma</option>
+        <option value="6º ao 9º Integral">6º ao 9º Integral</option>
+        <option value="6º ao 9º Regular">6º ao 9º Regular</option>
+        <option value="1º e 2º Técnico">1º e 2º Técnico</option>
+        <option value="1º ao 3º Ensino Médio">1º ao 3º Ensino Médio</option>
+      </select>
+      <button type="button" onclick="iniciarVotacao()">Votar!</button>
+    </form>
 
-  <div class="btn-container">
-    <button class="futebol" onclick="votar('Futebol')"> Futebol</button>
-    <button class="futsal" onclick="votar('Futsal')"> Futsal</button>
-    <button class="basquete" onclick="votar('Basquete')"> Basquete</button>
-    <button class="handebol" onclick="votar('Handebol')"> Handebol</button>
-    <button class="volei" onclick="votar('Vôlei')"> Vôlei</button>
-    <button class="peteca" onclick="votar('Peteca')"> Peteca</button>
+    <div class="emojis">
+      <span class="emoji futsal">⚽</span>
+      <span class="emoji basquete">🏀</span>
+      <span class="emoji volei">🏐</span>
+      <span class="emoji peteca">🪶</span>
+      <span class="emoji handebol">🥅</span>
+    </div>
   </div>
 
-  <p id="mensagem" class="mensagem"></p>
+  <!-- TELA DE VOTAÇÃO -->
+  <div id="tela-votacao" style="display: none;">
+    <h1>Vote no seu esporte favorito!</h1>
+    <div class="btn-container">
+      <button class="futsal" onclick="votar('Futsal')">⚽ Futsal</button>
+      <button class="basquete" onclick="votar('Basquete')">🏀 Basquete</button>
+      <button class="volei" onclick="votar('Vôlei')">🏐 Vôlei</button>
+      <button class="peteca" onclick="votar('Peteca')">🪶 Peteca</button>
+      <button class="handebol" onclick="votar('Handebol')">🥅 Handebol</button>
+    </div>
+    <p id="mensagem"></p>
+    <canvas id="graficoVotos"></canvas>
+  </div>
 
-  <canvas id="graficoPizza"></canvas>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    let votos = {
+      Futsal: 0,
+      Basquete: 0,
+      Vôlei: 0,
+      Peteca: 0,
+      Handebol: 0
+    };
 
-  <script src="script.js"></script>
+    let jaVotou = false;
+    let grafico;
+
+    function iniciarVotacao() {
+      const nome = document.getElementById('nome').value.trim();
+      const turma = document.getElementById('turma').value;
+
+      if (nome !== '' && turma !== '') {
+        document.getElementById('tela-inicial').style.display = 'none';
+        document.getElementById('tela-votacao').style.display = 'block';
+        inicializarGrafico();
+      } else {
+        alert('Por favor, preencha seu nome e selecione a turma.');
+      }
+    }
+
+    function inicializarGrafico() {
+      const ctx = document.getElementById('graficoVotos').getContext('2d');
+      grafico = new Chart(ctx, {
+        type: 'pie',
+        data: {
+          labels: Object.keys(votos),
+          datasets: [{
+            data: Object.values(votos),
+            backgroundColor: [
+              '#007bff', // Futsal
+              '#ff8c00', // Basquete
+              '#ffd700', // Vôlei
+              '#800080', // Peteca
+              '#228B22'  // Handebol
+            ]
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              labels: {
+                color: 'white'
+              }
+            }
+          }
+        }
+      });
+    }
+
+    function votar(esporte) {
+      if (jaVotou) {
+        document.getElementById('mensagem').textContent = 'Você já votou!';
+        return;
+      }
+
+      votos[esporte]++;
+      jaVotou = true;
+      document.getElementById('mensagem').textContent = 'Obrigado pelo seu voto!';
+      atualizarGrafico();
+    }
+
+    function atualizarGrafico() {
+      grafico.data.datasets[0].data = Object.values(votos);
+      grafico.update();
+    }
+  </script>
 </body>
 </html>
